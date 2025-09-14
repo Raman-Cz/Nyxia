@@ -1,6 +1,4 @@
-<h1 align="center">✨ Next.js Full Course - Build a Social App ✨</h1>
 
-![Demo App](/public/screenshot-for-readme.png)
 
 Highlights:
 
@@ -17,18 +15,3 @@ Highlights:
 - 🗃️ Database Integration with Prisma
 - 🚀 Server Actions & Forms
 - ⚡ Optimistic Updates
-
-### Setup .env file
-
-```js
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
-CLERK_SECRET_KEY=
-DATABASE_URL=
-UPLOADTHING_TOKEN=
-```
-
-### Run the app
-
-```shell
-npm run dev
-```
