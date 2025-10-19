@@ -31,7 +31,7 @@ function PostCard({ post, dbUserId }: { post: Post; dbUserId: string | null }) {
   const [optimisticLikes, setOptmisticLikes] = useState(post._count.likes);
   const [showComments, setShowComments] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
-  const [editedContent, setEditedContent] = useState(post.content);
+  const [editedContent, setEditedContent] = useState(post.content ?? "");
   const [isBookmarking, setIsBookmarking] = useState(false);
   const [hasBookmarked, setHasBookmarked] = useState(post.bookmarks.some((bookmark) => bookmark.userId === dbUserId)
   );
