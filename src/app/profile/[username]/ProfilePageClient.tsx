@@ -27,6 +27,7 @@ import {
   HeartIcon,
   LinkIcon,
   MapPinIcon,
+  BookmarkIcon
 } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -38,12 +39,14 @@ interface ProfilePageClientProps {
   user: NonNullable<User>;
   posts: Posts;
   likedPosts: Posts;
+  bookmarkedPosts: Posts;
   isFollowing: boolean;
 }
 
 function ProfilePageClient({
   isFollowing: initialIsFollowing,
   likedPosts,
+  bookmarkedPosts,
   posts,
   user,
 }: ProfilePageClientProps) {
@@ -102,7 +105,7 @@ function ProfilePageClient({
                 <Avatar className="w-24 h-24">
                   <AvatarImage src={user.image ?? "/avatar.png"} />
                 </Avatar>
-                <h1 className="mt-4 text-2xl font-bold">{user.name ?? user.username}</h1>
+                <h1 className="mt-4 text-2xl font-bold text-primary">{user.name ?? user.username}</h1>
                 <p className="text-muted-foreground">@{user.username}</p>
                 <p className="mt-2 text-sm">{user.bio}</p>
 
@@ -110,17 +113,17 @@ function ProfilePageClient({
                 <div className="w-full mt-6">
                   <div className="flex justify-between mb-4">
                     <div>
-                      <div className="font-semibold">{user._count.following.toLocaleString()}</div>
+                      <div className="font-semibold text-primary">{user._count.following.toLocaleString()}</div>
                       <div className="text-sm text-muted-foreground">Following</div>
                     </div>
                     <Separator orientation="vertical" />
                     <div>
-                      <div className="font-semibold">{user._count.followers.toLocaleString()}</div>
+                      <div className="font-semibold text-primary">{user._count.followers.toLocaleString()}</div>
                       <div className="text-sm text-muted-foreground">Followers</div>
                     </div>
                     <Separator orientation="vertical" />
                     <div>
-                      <div className="font-semibold">{user._count.posts.toLocaleString()}</div>
+                      <div className="font-semibold text-primary">{user._count.posts.toLocaleString()}</div>
                       <div className="text-sm text-muted-foreground">Posts</div>
                     </div>
                   </div>
@@ -198,6 +201,17 @@ function ProfilePageClient({
               <HeartIcon className="size-4" />
               Likes
             </TabsTrigger>
+
+            {isOwnProfile && (
+              <TabsTrigger
+                value="bookmarks"
+                className="flex items-center gap-2 rounded-none data-[state=active]:border-b-2 data-[state=active]:border-primary
+               data-[state=active]:bg-transparent px-6 font-semibold"
+              >
+                <BookmarkIcon className="size-4" />
+                Bookmarks
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="posts" className="mt-6">
@@ -219,6 +233,20 @@ function ProfilePageClient({
               )}
             </div>
           </TabsContent>
+
+          {isOwnProfile && (
+            <TabsContent value="bookmarks" className="mt-6">
+              <div className="space-y-6">
+                {bookmarkedPosts.length > 0 ? (
+                  bookmarkedPosts.map((post) => <PostCard key={post.id} post={post} dbUserId={user.id} />)
+                ) : (
+                  <div className="text-center py-8 text-muted-foreground">
+                    You haven't bookmarked any posts yet.
+                  </div>
+                )}
+              </div>
+            </TabsContent>
+          )}
         </Tabs>
 
         <Dialog open={showEditDialog} onOpenChange={setShowEditDialog}>

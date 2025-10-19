@@ -1,6 +1,7 @@
 import {
   getProfileByUsername,
   getUserLikedPosts,
+  getUserBookmarkedPosts,
   getUserPosts,
   isFollowing,
 } from "@/actions/profile.action";
@@ -22,9 +23,10 @@ async function ProfilePageServer({ params }: { params: { username: string } }) {
 
   if (!user) notFound();
 
-  const [posts, likedPosts, isCurrentUserFollowing] = await Promise.all([
+  const [posts, likedPosts,bookmarkedPosts,isCurrentUserFollowing] = await Promise.all([
     getUserPosts(user.id),
     getUserLikedPosts(user.id),
+    getUserBookmarkedPosts(user.id),
     isFollowing(user.id),
   ]);
 
@@ -33,6 +35,7 @@ async function ProfilePageServer({ params }: { params: { username: string } }) {
       user={user}
       posts={posts}
       likedPosts={likedPosts}
+      bookmarkedPosts={bookmarkedPosts}
       isFollowing={isCurrentUserFollowing}
     />
   );

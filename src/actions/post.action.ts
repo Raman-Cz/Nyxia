@@ -61,6 +61,11 @@ export async function getPosts() {
             userId: true,
           },
         },
+        bookmarks:{
+          select: {
+            userId: true
+          },
+        },
         _count: {
           select: {
             likes: true,
@@ -141,6 +146,53 @@ export async function toggleLike(postId: string) {
   }
 }
 
+export async function toggleBookmark(postId: string) {
+  try {
+    const userId = await getDbUserId();
+    if (!userId) throw new Error("User not found");
+
+    // Check if the bookmark already exists
+    const existingBookmark = await prisma.bookmark.findUnique({
+      where: {
+        userId_postId: {
+          userId,
+          postId,
+        },
+      },
+    });
+
+    if (existingBookmark) {
+      // If it exists, remove it (unbookmark)
+      await prisma.bookmark.delete({
+        where: {
+          userId_postId: {
+            userId,
+            postId,
+          },
+        },
+      });
+    } else {
+      // If it does not exist, create it (bookmark)
+      await prisma.bookmark.create({
+        data: {
+          userId,
+          postId,
+        },
+      });
+    }
+
+    // Revalidate the path to update the UI
+    // You might revalidate specific paths like '/' or a new '/bookmarks' page
+    revalidatePath("/");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to toggle bookmark:", error);
+    const message = error instanceof Error ? error.message : "An unexpected error occurred";
+    return { success: false, error: message };
+  }
+}
+
+
 export async function createComment(postId: string, content: string) {
   try {
     const userId = await getDbUserId();
@@ -211,5 +263,41 @@ export async function deletePost(postId: string) {
   } catch (error) {
     console.error("Failed to delete post:", error);
     return { success: false, error: "Failed to delete post" };
+  }
+}
+
+export async function updatePost(postId: string, newContent: string) {
+  try {
+    const userId = await getDbUserId();
+    if (!userId) throw new Error("Unauthorized");
+
+    // Security Check: Find the post first to ensure the user is the author
+    const postToUpdate = await prisma.post.findUnique({
+      where: { id: postId },
+      select: { authorId: true },
+    });
+
+    if (!postToUpdate) throw new Error("Post not found");
+    if (postToUpdate.authorId !== userId) {
+      throw new Error("Forbidden: You can only edit your own posts");
+    }
+
+    // If checks pass, update the post
+    await prisma.post.update({
+      where: {
+        id: postId,
+      },
+      data: {
+        content: newContent,
+      },
+    });
+
+    revalidatePath("/"); // Revalidate the feed to show the changes
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to update post:", error);
+    // Ensure the error message is a plain string
+    const message = error instanceof Error ? error.message : "Failed to update post";
+    return { success: false, error: message };
   }
 }

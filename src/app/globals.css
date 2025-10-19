@@ -13,59 +13,91 @@ body {
 }
 
 @layer base {
+  
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    /* Main background - a warm, creamy off-white */
+    --background: 33 13% 96%;
+    /* Main text color - a very dark, warm brown/maroon */
+    --foreground: 350 81% 15%;
+
+    /* Card and Popover backgrounds - clean white for contrast */
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 350 81% 15%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
+    --popover-foreground: 350 81% 15%;
+
+    /* Primary accent color - the signature deep maroon */
+    --primary: 350 81% 41%;
+    /* Text on top of primary color - white for high contrast */
+    --primary-foreground: 0 0% 100%;
+
+    /* Secondary colors */
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
+
+    /* Muted colors - for placeholder text and subtle details */
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+
+    /* Accent colors - can be a lighter version of the primary */
+    --accent: 350 81% 94%;
+    --accent-foreground: 350 81% 20%;
+
+    /* Destructive color for errors/delete buttons */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
+
+    /* Border and Input colors */
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
+
+    /* Ring color for focus states - uses the primary accent */
+    --ring: 350 81% 41%;
+
     --radius: 0.5rem;
   }
+  
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
+    /* Main background - slightly warm dark grey (UNTOUCHED) */
+    --background: 0 0 0;
+    /* Main text color - soft off-white */
+    --foreground: 0 0% 90%;
+
+    /* Card and Popover backgrounds - darker with a golden tinge */
+    --card: 40 10% 8%; /* HSL for a very dark, desaturated warm/golden color */
+    --card-foreground: 0 0% 90%;
+    --popover: 40 10% 8%;
+    --popover-foreground: 0 0% 90%;
+
+    /* Primary accent color - the signature golden-yellow */
+    --primary: 40 100% 60%;
+    /* Text on top of primary - dark contrast */
+    --primary-foreground: 220 12% 10%;
+
+    /* Secondary colors - use the same new base for consistency */
+    --secondary: 40 10% 10%; /* A slightly lighter version for subtle depth */
+    --secondary-foreground: 0 0% 90%;
+
+    /* Muted colors - for placeholder text, 'Offline', etc. */
+    --muted: 40 10% 10%;
+    --muted-foreground: 0 0% 65%;
+
+    /* Accent color - for hover states etc. */
+    --accent: 40 10% 12%; /* A slightly lighter version for hover states */
+    --accent-foreground: 0 0% 90%;
+
+    /* Destructive color - typically red, kept consistent */
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+
+    /* Border and Input colors - use the consistent new base */
+    --border: 40 10% 10%;
+    --input: 40 10% 10%;
+
+    /* Ring color for focus states - uses the primary accent */
+    --ring: 40 100% 60%;
   }
+
 }
 
 @layer base {

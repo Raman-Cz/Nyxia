@@ -70,6 +70,11 @@ export async function getUserPosts(userId: string) {
             userId: true,
           },
         },
+        bookmarks:{
+          select: {
+            userId: true,
+          },
+        },
         _count: {
           select: {
             likes: true,
@@ -128,6 +133,11 @@ export async function getUserLikedPosts(userId: string) {
             userId: true,
           },
         },
+        bookmarks:{
+          select: {
+            userId: true,
+          },
+        },
         _count: {
           select: {
             likes: true,
@@ -144,6 +154,44 @@ export async function getUserLikedPosts(userId: string) {
   } catch (error) {
     console.error("Error fetching liked posts:", error);
     throw new Error("Failed to fetch liked posts");
+  }
+}
+
+export async function getUserBookmarkedPosts(userId: string) {
+  try {
+    const bookmarkedPosts = await prisma.post.findMany({
+      where: {
+        bookmarks: {
+          some: {
+            userId,
+          },
+        },
+      },
+      // We need to include all the same data as other post queries
+      // to ensure our PostCard component works correctly.
+      include: {
+        author: {
+          select: { id: true, name: true, username: true, image: true },
+        },
+        comments: {
+          include: {
+            author: { select: { id: true, name: true, username: true, image: true } },
+          },
+          orderBy: { createdAt: "asc" },
+        },
+        likes: { select: { userId: true } },
+        bookmarks: { select: { userId: true } }, // Important for the bookmark icon state
+        _count: { select: { likes: true, comments: true } },
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return bookmarkedPosts;
+  } catch (error) {
+    console.error("Error fetching bookmarked posts:", error);
+    throw new Error("Failed to fetch bookmarked posts");
   }
 }
 

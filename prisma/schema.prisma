@@ -30,6 +30,7 @@ model User {
   posts Post[] // One-to-many
   comments Comment[] // One-to-many
   likes Like[] // One-to-many
+  bookmarks Bookmark[]
 
   followers Follows[] @relation("following") // users who follow this user
   following Follows[] @relation("follower") // users this user follows
@@ -52,6 +53,7 @@ model Post{
   comments Comment[]
   likes Like[]
   notifications Notification[]
+  bookmarks Bookmark[]
 }
 
 
@@ -82,6 +84,19 @@ model Like {
 
   @@index([userId,postId]) // composite index for faster queries
   @@unique([userId,postId]) // this prevents same user liking post twice
+}
+
+model Bookmark {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId String
+  postId String
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
+
+  @@index([userId,postId]) 
+  @@unique([userId, postId])
 }
 
 model Follows{

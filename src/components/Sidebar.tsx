@@ -29,7 +29,7 @@ async function Sidebar() {
               </Avatar>
 
               <div className="mt-4 space-y-1">
-                <h3 className="font-semibold">{user.name}</h3>
+                <h3 className="font-semibold text-primary">{user.name}</h3>
                 <p className="text-sm text-muted-foreground">{user.username}</p>
               </div>
             </Link>
@@ -40,12 +40,12 @@ async function Sidebar() {
               <Separator className="my-4" />
               <div className="flex justify-between">
                 <div>
-                  <p className="font-medium">{user._count.following}</p>
+                  <p className="font-medium text-primary">{user._count.following}</p>
                   <p className="text-xs text-muted-foreground">Following</p>
                 </div>
                 <Separator orientation="vertical" />
                 <div>
-                  <p className="font-medium">{user._count.followers}</p>
+                  <p className="font-medium text-primary">{user._count.followers}</p>
                   <p className="text-xs text-muted-foreground">Followers</p>
                 </div>
               </div>
